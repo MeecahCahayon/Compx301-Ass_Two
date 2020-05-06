@@ -39,20 +39,11 @@ class REcompile {
 		    //SETTING THE LAST STATE
 		    set_state(state, END, -1, -1);
 
-		    System.out.println("");
-
 		    for (int i = 0; i < ch.size() ; i++) {
 		    	
 		    	System.out.println(i + ", " + ch.get(i) + ", " + n1.get(i) + ", " + n2.get(i));
 		    }
 
-		    /* TESTING COMMENT */
-
-		    System.out.println("");
-    		System.out.println("TAMA NA SYA EUNICE !!!");
-    		System.out.println("");
-
-    		/* END TESTING COMMENT */
     	}
     	catch (Exception eReCompile) {
 
