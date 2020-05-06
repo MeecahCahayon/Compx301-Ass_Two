@@ -1,34 +1,67 @@
 import java.util.*;
 import java.io.*;
 
-private class Node() {
+class Node {
 
-	private String _value;
-	private Node _left;
-	private Node _right;
+	//DECLARE VARIABLES
+	private String _state;
+	private String _char;
+	private String _branch1;
+	private String _branch2;
+	private Node _next;
 
-	public Node(String value) {
+	/* CONSTRUCTOR */
+	
+	//NODE FOR DEQUE
+	public Node(String state) {
 
-		_value = value;
+		_state = state;
 	}
 
-	public String getValue() {
-		return _value;
+	//NODE FOR FSM
+	public Node(String state, String ch, String branch1, String branch2) {
+
+		_state = state;
+		_char = ch;
+		_branch1 = branch1;
+		_branch2 = branch2;
 	}
 
-	public Node getLeft() {
-		return _left;
+	/* GETTER AND SETTERS */
+
+	public String getState() {
+		return _state;
 	}
 
-	public Node getRight() {
-		return _right;
+	public String getChar() {
+		return _char;
 	}
 
-	public Node setRight(Node right) {
-		_right = right;
+	public void setChar(String ch) {
+		_char = ch;
 	}
 
-	public Node setLeft(Node left) {
-		_left = left;
+	public String getBranch1() {
+		return _branch1;
+	}
+
+	public void setBranch1(String branch1) {
+		_branch1 = branch1;
+	}
+
+	public String getBranch2() {
+		return _branch2;
+	}
+
+	public void setBranch2(String branch2) {
+		_branch2 = branch2;
+	}
+
+	public Node getNext() {
+		return _next;
+	}
+
+	public void setNext(Node next) {
+		_next = next;
 	}
 }
