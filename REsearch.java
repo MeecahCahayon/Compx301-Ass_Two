@@ -3,7 +3,7 @@ import java.io.*;
 
 class REsearch {
 
-	static private final String[] SPLSTATE = { "START","END", "BR", "DM", "WC"};
+	static private final String[] SPLSTATE = { "START","END", "BR", "DM"};
 
 	public static void main(String[] args) {
 
@@ -121,11 +121,11 @@ class REsearch {
 							if (stateChar.compareTo("END") != 0) {
 
 								//IF STATE IS NOT A BRANCH, DUMMY, START STATE
-								if (!(isSpecial(stateChar))) {
+								if ((!(isSpecial(stateChar))) || (stateChar.compareTo("WC") == 0)) {
 
 									//IF THE CHAR MATCHES
-									if ((pointer.compareTo(stateChar) == 0) || 
-										(stateChar.compareTo("WC") == 0)) {
+									//if ((pointer.compareTo(stateChar) == 0)) {
+									if ((pointer.compareTo(stateChar) == 0) || (stateChar.compareTo("WC") == 0)) {
 
 										//PUSH BRANCH (ADD TO THE END OF THE DEQUE)
 										deque.push(branch1);
