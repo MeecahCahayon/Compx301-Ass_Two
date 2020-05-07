@@ -13,23 +13,25 @@ class FSMtable  {
 		//IF LIST IS EMPTY
 		if (head == null) {
 			
+			//THE NEW STATE IS THE HEAD
 			head = states;
 			return;
 		}
 
 		Node curr = head;
 
-		//WHILE NOT END OF THE LIST
+		//GET TO THE END OF THE LIST
 		while (curr.getNext() != null) {
-		
+
 			curr = curr.getNext();
 		}
 
+		//SET NEW STATE AT THE END OF THE LIST
 		curr.setNext(states);
 		return;
 	}
 
-	//new
+	//RETURN THE NODE FOR THE PASSED STATE NUMBER
 	public Node findState(String state) {
 
 		Node curr = head;
@@ -44,7 +46,7 @@ class FSMtable  {
 		return curr;
 	}
 
-	//change
+	//FOR TESTING
 	public void displayFSM() {
 
 		Node curr = head;
