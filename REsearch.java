@@ -3,7 +3,7 @@ import java.io.*;
 
 class REsearch {
 
-	static private final String[] SPLSTATE = { "START", "BR", "DM", "WC"};
+	static private final String[] SPLSTATE = { "START","END", "BR", "DM", "WC"};
 
 	public static void main(String[] args) {
 
@@ -35,6 +35,8 @@ class REsearch {
 
 			boolean success = false;
 			boolean isEmpty = false;
+			String sTracker = "0";
+			int p;
 			String marker;
 			String pointer;
 			String dqHead;
@@ -84,6 +86,11 @@ class REsearch {
 				for (int m = 0; m < parts.length ; m++) {
 
 					if (success) { break; }
+
+					//MAKING SURE THAT PATTERN IS SEARCH FROM START
+					deque.clear();
+					isEmpty = false;
+					p = 0;
 					
 					marker = parts[m];
 					pLine = line.substring(m);
@@ -96,13 +103,30 @@ class REsearch {
 					System.out.println("");
 					/* END DEBUG CODE */
 
-					//FOR EVERY CHAR IN THE LINE FOR SEARCHING PATTER
-					for (int p = 0; p < pParts.length; p++) {
+					System.out.println("sTracker: " + sTracker);
+					System.out.println("sTracker.boolean: " + (isSpecial(sTracker)));
+					System.out.println("p: " + p);
+					System.out.println("pParts.length: " + pParts.length);
+					System.out.println("");
 
+					//FOR EVERY CHAR IN THE LINE FOR SEARCHING PATTER
+					// for (int p = 0; (p < pParts.length) || (isSpecial(sTracker)); p++) {
+					while ((p < pParts.length) || (isSpecial(sTracker))) {
+
+						System.out.println("p: " + p);
+						System.out.println("pParts.length: " + pParts.length);
+						
 						if (success) { break; }
 						if (isEmpty) { break; }
 						
-						pointer = pParts[p];
+						if (p < pParts.length) {
+
+							pointer = pParts[p];
+						}
+						else {
+
+							pointer = pParts[pParts.length-1];
+						}
 
 						//GET THE DEQUE HEAD LOL :)
 						dqHead = deque.getHead().getState();
@@ -146,7 +170,9 @@ class REsearch {
 									System.out.println("");
 
 									//IF THE CHAR MATCHES
-									if (pointer.compareTo(stateChar) == 0) {
+									// if (pointer.compareTo(stateChar) == 0) {
+									if ((pointer.compareTo(stateChar) == 0) || 
+										(stateChar.compareTo("WC") == 0)) {
 
 										System.out.println("The same char");
 										System.out.println("");
@@ -171,6 +197,7 @@ class REsearch {
 								System.out.println("OUTPUT SUCCESSFUL");
 								System.out.println(line);
 								success = true;
+								p = -1;
 							}
 
 							dqHead = deque.getHead().getState();
@@ -186,8 +213,17 @@ class REsearch {
 						//CHECK IF DEQUE IS EMPTY
 						dqHead = deque.getHead().getState();
 
+						System.out.println("HERE PO");
+						System.out.println("dqHead: " + dqHead);
+
+						if (dqHead.compareTo("SCAN") != 0) {
+
+							sTracker = fsm.findState(dqHead).getChar();
+						}
+
 						System.out.println("Testing if deque is empty");
 						System.out.println("dqHead: " + dqHead);
+						System.out.println("sTracker: " + sTracker);
 						System.out.println("");
 
 						if (dqHead.compareTo("SCAN") == 0) {
@@ -195,9 +231,14 @@ class REsearch {
 							System.out.println("Deque is empty");
 							System.out.println("");
 							isEmpty = true;
+							p = 0;
 						}
+
+						p++;
 					}
 				}
+
+				System.out.println("Success and isEmpty is false. clearing deque");
 
 				line = reader.readLine();
 				success = false;
