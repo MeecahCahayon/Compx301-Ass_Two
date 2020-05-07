@@ -43,11 +43,10 @@ class REcompile {
 		    	
 		    	System.out.println(i + ", " + ch.get(i) + ", " + n1.get(i) + ", " + n2.get(i));
 		    }
-
     	}
-    	catch (Exception eReCompile) {
+    	catch (Exception eREcompile) {
 
-    		System.err.println("Error :" + eReCompile);
+    		System.err.println("Error: " + eREcompile);
 			return;
     	}
     }
