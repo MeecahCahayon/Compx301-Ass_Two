@@ -8,10 +8,9 @@ class Deque {
 
 	/* CONSTRUCTOR */
 
-	//change
 	public Deque() {
 
-		//SETTING 'SCAN' TO SEPARATE AND INITIAL STATE
+		//SETTING INITIAL STATE AND 'SCAN' TO SEPARATE 
 		scan = new Node("SCAN");
 		Node initial = new Node("0");
 
@@ -44,6 +43,7 @@ class Deque {
 	//ADD TO THE END OF THE LIST
 	public void push(String state) {
 
+		//IF HEAD IS NULL
 		if (head == null) {
 			
 			head = new Node(state);
@@ -65,6 +65,7 @@ class Deque {
 	//POP FROM THE TOP OF THE LIST
 	public void pop() {
 
+		//MAKE HEAD THE NEXT OF HEAD
 		head = head.getNext();
 	}
 
