@@ -11,7 +11,7 @@ class REsearch {
 
 			if (args.length != 1) {
 
-				//print error
+				//PRINT ERROR
 				System.err.println("Enter valid argument: java REsearch <textfile> < FSMtable");
 				return;
 			}
@@ -22,13 +22,13 @@ class REsearch {
 			BufferedReader reader = new BufferedReader(regex);
 
 			//DECLARE VARIABLE
+			ArrayList<String> outputs = new ArrayList<String>();
 			String[] parts;
 			String[] pParts;
 			String line;
 			String pLine;
 
 			Node stateNode;
-			String stateNum;
 			String stateChar;
 			String branch1;
 			String branch2;
@@ -62,10 +62,6 @@ class REsearch {
 				line = reader.readLine();
 			}
 
-			System.out.println("");
-			fsm.displayFSM();
-			System.out.println("");
-
 			//CREATING DEQUE
 			Deque deque = new Deque();
 
@@ -78,9 +74,6 @@ class REsearch {
 
 				//GET EACH CHAR OF THE LINE
 				parts = line.split("");
-
-				System.out.println("Line: " + line);
-				System.out.println("");
 
 				//FOR EVERY CHAR IN THE LINE FOR START OF THE PATTERN
 				for (int m = 0; m < parts.length ; m++) {
@@ -96,25 +89,8 @@ class REsearch {
 					pLine = line.substring(m);
 					pParts = pLine.split("");
 
-					/* DEBUG CODE */
-					System.out.println("MARKER");
-					System.out.println("marker: " + marker);
-					System.out.println("pLine: " + pLine);
-					System.out.println("");
-					/* END DEBUG CODE */
-
-					System.out.println("sTracker: " + sTracker);
-					System.out.println("sTracker.boolean: " + (isSpecial(sTracker)));
-					System.out.println("p: " + p);
-					System.out.println("pParts.length: " + pParts.length);
-					System.out.println("");
-
 					//FOR EVERY CHAR IN THE LINE FOR SEARCHING PATTER
-					// for (int p = 0; (p < pParts.length) || (isSpecial(sTracker)); p++) {
 					while ((p < pParts.length) || (isSpecial(sTracker))) {
-
-						System.out.println("p: " + p);
-						System.out.println("pParts.length: " + pParts.length);
 						
 						if (success) { break; }
 						if (isEmpty) { break; }
@@ -131,14 +107,6 @@ class REsearch {
 						//GET THE DEQUE HEAD LOL :)
 						dqHead = deque.getHead().getState();
 
-						/* DEBUG CODE */
-						System.out.println("POINTER");
-						System.out.println("dqHead: " + dqHead);
-						System.out.println("pointer: " + pointer);
-						System.out.println("pLine: " + pLine);
-						System.out.println("");
-						/* END DEBUG CODE */
-
 						//WHILE THERE ARE CURRENT STATE
 						while (dqHead.compareTo("SCAN") != 0) {
 
@@ -150,32 +118,14 @@ class REsearch {
 							branch1 = stateNode.getBranch1();
 							branch2 = stateNode.getBranch2();
 
-							System.out.println("After while !SCAN");
-							System.out.println("dqHead: " + dqHead);
-							System.out.println("stateNode.state: " + stateNode.getState());
-							System.out.println("stateChar: " + stateChar);
-							System.out.println("branch1: " + branch1);
-							System.out.println("branch2: " + branch2);
-							System.out.println("");
-
 							if (stateChar.compareTo("END") != 0) {
-
-								System.out.println("After if !END");
-								System.out.println("");
 
 								//IF STATE IS NOT A BRANCH, DUMMY, START STATE
 								if (!(isSpecial(stateChar))) {
-									
-									System.out.println("Not special char");
-									System.out.println("");
 
 									//IF THE CHAR MATCHES
-									// if (pointer.compareTo(stateChar) == 0) {
 									if ((pointer.compareTo(stateChar) == 0) || 
 										(stateChar.compareTo("WC") == 0)) {
-
-										System.out.println("The same char");
-										System.out.println("");
 
 										//PUSH BRANCH (ADD TO THE END OF THE DEQUE)
 										deque.push(branch1);
@@ -186,25 +136,43 @@ class REsearch {
 								}
 								else {
 
-									System.out.println("Is special char");
-									System.out.println("");
+									//REPLACE DEQHEAD WITH ITS BRANCHES
 									deque.put(branch1, branch2);
 								}
 							}
 							else {
 								
-								//WE FOUND A MATCH PRINT OUTPUT
-								System.out.println("OUTPUT SUCCESSFUL");
-								System.out.println(line);
-								success = true;
-								p = -1;
+								//WE FOUND A MATCH - ADD TO THE ARRAYLIST
+
+								//IF ARRAYLIST IS EMPTY - ADD
+                                if(outputs.size() == 0) {
+
+                                    outputs.add(line);
+                                }
+                                else {
+
+                                	//CHECK IF WE ALREADY HAVE THAT OUTPUT
+                                    for(String s: outputs) {
+
+                                        if(s.equals(line)) {
+
+                                            //IF STRING IS ALREADY IN THE LIST
+                                            break;
+                                        }
+                                        else {
+
+                                            //ELSE ADD INTO THE LIST
+                                            outputs.add(line);
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                success = true;
+                                p = -1;
 							}
 
 							dqHead = deque.getHead().getState();
-
-							System.out.println("End of !SCAN");
-							System.out.println("dqHead: " + dqHead);
-							System.out.println("");
 						}
 
 						deque.pop();
@@ -213,38 +181,33 @@ class REsearch {
 						//CHECK IF DEQUE IS EMPTY
 						dqHead = deque.getHead().getState();
 
-						System.out.println("HERE PO");
-						System.out.println("dqHead: " + dqHead);
+						if (dqHead.compareTo("SCAN") == 0) {
+							
+							isEmpty = true;
+							p = 0;
+						}
 
+						//SAVES DQHEAD'S CHAR FOR REFERENCE LATER
 						if (dqHead.compareTo("SCAN") != 0) {
 
 							sTracker = fsm.findState(dqHead).getChar();
-						}
-
-						System.out.println("Testing if deque is empty");
-						System.out.println("dqHead: " + dqHead);
-						System.out.println("sTracker: " + sTracker);
-						System.out.println("");
-
-						if (dqHead.compareTo("SCAN") == 0) {
-
-							System.out.println("Deque is empty");
-							System.out.println("");
-							isEmpty = true;
-							p = 0;
 						}
 
 						p++;
 					}
 				}
 
-				System.out.println("Success and isEmpty is false. clearing deque");
-
 				line = reader.readLine();
-				success = false;
 				deque.clear();
+				success = false;
 				isEmpty = false;
 			}
+
+			//PRINT OUTPUT
+            for(String s: outputs) {
+
+                System.out.println(s);
+            }
 
 			System.out.flush();
 			reader.close();
